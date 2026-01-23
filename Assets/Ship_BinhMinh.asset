@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0710c81f2b464e74aa21026f8c597f7e, type: 3}
+  m_Name: Ship_BinhMinh
+  m_EditorClassIdentifier: 
+  shipName: 
+  shipSprite: {fileID: 1103503890, guid: 210e02668f4565740af280b8ea0d5cc0, type: 3}
+  baseHealth: 100
+  baseDamage: 10
+  normalBullet: {fileID: 1196943595, guid: e400bfe55a44eba4795f079a0a1e6e7d, type: 3}
+  frenzyBullet: {fileID: -1947356470, guid: 4a0523fc53ad1884285c568d564aab2b, type: 3}
+  frenzyFireRate: 0.25
