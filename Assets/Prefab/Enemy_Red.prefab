@@ -181,7 +181,7 @@ MonoBehaviour:
   timeBetweenShots: 2
   itemSPrefab: {fileID: 4644557113145205889, guid: 92e5154b398758649ae0bc202741b6c5, type: 3}
   itemLevelUpPrefab: {fileID: 861657865876920480, guid: b63fac3e0cd2e5f408c2707b2a175f1d, type: 3}
-  dropChance: 0.1
+  dropChance: 0.25
 --- !u!114 &8252995324805834508
 MonoBehaviour:
   m_ObjectHideFlags: 0

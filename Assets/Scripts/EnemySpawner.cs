@@ -131,7 +131,7 @@ public class EnemySpawner : MonoBehaviour
         // Tắt cờ Boss Phase để đánh dấu là Boss đã xong
         isBossPhase = false;
 
-        difficultyMultiplier += 1.0f;
+        difficultyMultiplier += 0.5f;
         currentWave++;
 
         // Hủy mọi lệnh Invoke cũ trước khi gọi lệnh mới (để tránh spam)

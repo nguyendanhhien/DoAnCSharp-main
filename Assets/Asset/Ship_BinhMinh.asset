@@ -18,4 +18,4 @@ MonoBehaviour:
   baseDamage: 10
   normalBullet: {fileID: 1196943595, guid: e400bfe55a44eba4795f079a0a1e6e7d, type: 3}
   frenzyBullet: {fileID: -1947356470, guid: 4a0523fc53ad1884285c568d564aab2b, type: 3}
-  frenzyFireRate: 0.25
+  frenzyFireRate: 0.5
