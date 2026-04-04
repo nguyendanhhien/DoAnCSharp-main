@@ -70,10 +70,21 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(3f, 5f));
         }
 
-        // Đợi một chút trước khi ra Boss
-        yield return new WaitForSeconds(2f);
+        // ====== ĐOẠN MỚI SỬA BẮT ĐẦU TỪ ĐÂY ======
 
-        // Gọi Boss
+        // 1. Dọn dẹp chiến trường một chút trước khi báo động (tùy chọn)
+        yield return new WaitForSeconds(1f);
+
+        // 2. Kích hoạt hiệu ứng chớp nháy "WARNING" bên UI
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.ShowBossWarning();
+        }
+
+        // 3. Hiệu ứng nhấp nháy mất 3 giây (3 lần x 1s). Ta đợi đúng 3 giây.
+        yield return new WaitForSeconds(3f);
+
+        // 4. Thả Boss!
         SpawnBoss();
     }
 
@@ -130,6 +141,12 @@ public class EnemySpawner : MonoBehaviour
 
         // Tắt cờ Boss Phase để đánh dấu là Boss đã xong
         isBossPhase = false;
+        // --- ĐOẠN MỚI THÊM: GỌI UI CHIẾN THẮNG ---
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.ShowVictoryPanel();
+        }
+        // ------------------------------------------
 
         difficultyMultiplier += 0.5f;
         currentWave++;

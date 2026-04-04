@@ -102,4 +102,44 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f; // Rất quan trọng: Phải rã đông thời gian trước khi đổi Scene
         SceneManager.LoadScene("MainMenu"); // Điền tên Scene Menu của bạn vào đây
     }
+    [Header("Boss Warning")]
+    public GameObject bossWarningPanel; // <--- Kéo BossWarningPanel vào đây
+
+    // Hàm này Spawner sẽ gọi khi đủ quái
+    public void ShowBossWarning()
+    {
+        StartCoroutine(WarningRoutine());
+    }
+
+    // Coroutine tạo hiệu ứng chớp nháy (Không làm dừng game)
+    System.Collections.IEnumerator WarningRoutine()
+    {
+        // Vòng lặp chớp nháy 3 lần (Bật 0.5s -> Tắt 0.5s)
+        for (int i = 0; i < 3; i++)
+        {
+            if (bossWarningPanel != null) bossWarningPanel.SetActive(true);
+            yield return new WaitForSeconds(0.5f); // Đợi nửa giây
+
+            if (bossWarningPanel != null) bossWarningPanel.SetActive(false);
+            yield return new WaitForSeconds(0.5f); // Đợi nửa giây
+        }
+    }
+    [Header("Victory Menu")]
+    public GameObject victoryPanel; // <--- Kéo VictoryPanel vào đây
+
+    // Hàm này sẽ được gọi khi Boss chết
+    public void ShowVictoryPanel()
+    {
+        StartCoroutine(VictoryRoutine());
+    }
+
+    // Coroutine tự động hiện Panel chúc mừng 3 giây rồi tắt
+    System.Collections.IEnumerator VictoryRoutine()
+    {
+        if (victoryPanel != null) victoryPanel.SetActive(true); // Bật chữ chúc mừng
+
+        yield return new WaitForSeconds(3f); // Đợi 3 giây (bằng thời gian Spawner nghỉ)
+
+        if (victoryPanel != null) victoryPanel.SetActive(false); // Tắt chữ đi để bắn tiếp
+    }
 }
