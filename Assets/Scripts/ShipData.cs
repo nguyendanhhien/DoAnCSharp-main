@@ -11,7 +11,7 @@ public class ShipData : ScriptableObject
     public int baseDamage = 10;
 
     [Header("Cấu hình Đạn")]
-    public Sprite normalBullet; // <--- THÊM DÒNG NÀY (Đạn thường)
-    public Sprite frenzyBullet; // (Đạn to/Bạo tẩu)
+    public Sprite normalBullet; 
+    public Sprite frenzyBullet; 
     public float frenzyFireRate = 0.1f;
 }

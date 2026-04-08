@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections; // Cần thiết để dùng Coroutine (IEnumerator)
+using System.Collections; 
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Phân loại")]
-    public bool isBoss = false; // Spawner sẽ tự tick cái này nếu là Boss
+    public bool isBoss = false; 
 
     [Header("Chỉ số cơ bản")]
-    public float baseHealth = 3f; // Đổi sang float để nhân % cho dễ
+    public float baseHealth = 3f; 
     private float currentHealth;
     public int scoreValue = 100;
 
@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("Loot")]
     public GameObject itemSPrefab;
-    public GameObject itemLevelUpPrefab; // <--- MỚI: Biến chứa Prefab Item Nâng Cấp
+    public GameObject itemLevelUpPrefab; 
     [Range(0f, 1f)] public float dropChance = 0.2f;
 
     private Transform playerTransform;
@@ -36,25 +36,23 @@ public class EnemyController : MonoBehaviour
         if (player != null) playerTransform = player.transform;
         _renderer = GetComponent<SpriteRenderer>();
 
-        // --- FIX BIẾN MẤT: Luôn dừng trong màn hình ---
+        
         if (isBoss)
-            stopYPosition = 3.5f; // Boss dừng cao hơn chút
+            stopYPosition = 3.5f; 
         else
-            stopYPosition = Random.Range(1f, 4.5f); // Quái nhỏ dừng rải rác
+            stopYPosition = Random.Range(1f, 4.5f); 
 
-        // --- LOGIC TĂNG ĐỘ KHÓ ---
-        // Lấy hệ số từ Spawner (Ví dụ 1.01)
+        
         float multiplier = 1f;
         if (EnemySpawner.instance != null)
         {
             multiplier = EnemySpawner.instance.difficultyMultiplier;
         }
 
-        // Nhân máu lên
+        
         currentHealth = baseHealth * multiplier;
 
-        // (Tùy chọn) Tăng tốc độ bay 1 chút xíu nếu thích khó hơn
-        // moveSpeed *= multiplier; 
+        
     }
 
     void Update()
@@ -65,7 +63,7 @@ public class EnemyController : MonoBehaviour
 
     void HandleMovement()
     {
-        // Logic: Bay xuống -> Đến điểm dừng -> Dừng lại lượn lờ -> KHÔNG BAO GIỜ BIẾN MẤT
+        
         if (!reachedTarget)
         {
             transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
@@ -103,8 +101,7 @@ public class EnemyController : MonoBehaviour
             {
                 bulletScript.SetDirection(direction);
 
-                // --- TĂNG SÁT THƯƠNG ĐẠN THEO ĐỘ KHÓ ---
-                // Sát thương đạn = Mặc định * Hệ số khó
+                
                 if (EnemySpawner.instance != null)
                 {
                     bulletScript.damage = Mathf.RoundToInt(bulletScript.damage * EnemySpawner.instance.difficultyMultiplier);
@@ -128,13 +125,13 @@ public class EnemyController : MonoBehaviour
         {
             PlayerStats player = other.GetComponent<PlayerStats>();
 
-            // Sát thương đâm va cũng tăng theo độ khó
+            
             float multiplier = (EnemySpawner.instance != null) ? EnemySpawner.instance.difficultyMultiplier : 1f;
             int collisionDamage = Mathf.RoundToInt(20 * multiplier);
 
             if (player != null) player.TakeDamage(collisionDamage);
 
-            // Nếu là Boss đâm trúng thì không chết, quái nhỏ đâm thì chết
+            
             if (!isBoss) Die();
         }
     }
@@ -155,19 +152,19 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
-        // Cộng điểm
+        
         if (UIManager.instance != null) UIManager.instance.AddScore(scoreValue);
 
-        // Nếu là Boss chết thì báo cho Spawner
+        
         if (isBoss && EnemySpawner.instance != null)
         {
             EnemySpawner.instance.OnBossDied();
         }
 
-        // --- LOGIC RỚT ĐỒ NGẪU NHIÊN (MỚI) ---
-        if (Random.value < dropChance) // Nếu may mắn được rớt đồ
+        
+        if (Random.value < dropChance) 
         {
-            // Tung đồng xu: 50% ra S, 50% ra LevelUp
+            
             if (Random.value < 0.5f)
             {
                 if (itemSPrefab != null)

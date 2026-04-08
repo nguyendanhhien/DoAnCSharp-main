@@ -15,15 +15,15 @@ public class EnemySpawner : MonoBehaviour
     public int currentWave = 1;
 
     private int spawnedCount = 0;
-    private bool isBossPhase = false; // Biến này rất quan trọng để chặn spawn
+    private bool isBossPhase = false; 
 
-    // Biến để lưu trữ Coroutine đang chạy, giúp ta tắt nó đi khi cần
+    
     private Coroutine currentWaveCoroutine;
 
     void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(gameObject); // Đảm bảo không có 2 Spawner trùng nhau
+        else Destroy(gameObject); 
     }
 
     void Start()
@@ -33,9 +33,8 @@ public class EnemySpawner : MonoBehaviour
 
     void StartNewWave()
     {
-        // 1. Dọn dẹp các lệnh cũ để tránh chồng chéo
-        CancelInvoke("StartNewWave"); // Hủy các lệnh Invoke đang chờ (nếu có)
-        if (currentWaveCoroutine != null) StopCoroutine(currentWaveCoroutine); // Dừng Coroutine cũ ngay lập tức
+        CancelInvoke("StartNewWave"); 
+        if (currentWaveCoroutine != null) StopCoroutine(currentWaveCoroutine); 
 
         spawnedCount = 0;
         isBossPhase = false;
@@ -45,16 +44,16 @@ public class EnemySpawner : MonoBehaviour
             UIManager.instance.UpdateWave(currentWave);
         }
 
-        // 2. Lưu lại Coroutine đang chạy vào biến
+        
         currentWaveCoroutine = StartCoroutine(SpawnWaveRoutine());
     }
 
     IEnumerator SpawnWaveRoutine()
     {
-        // Vòng lặp spawn quái nhỏ
+        
         while (spawnedCount < totalEnemiesPerWave)
         {
-            // Kiểm tra an toàn: Nếu lỡ vào Boss phase rồi thì dừng ngay quái nhỏ
+            
             if (isBossPhase) yield break;
 
             int remaining = totalEnemiesPerWave - spawnedCount;
@@ -70,27 +69,27 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(3f, 5f));
         }
 
-        // ====== ĐOẠN MỚI SỬA BẮT ĐẦU TỪ ĐÂY ======
+       
 
-        // 1. Dọn dẹp chiến trường một chút trước khi báo động (tùy chọn)
+        
         yield return new WaitForSeconds(1f);
 
-        // 2. Kích hoạt hiệu ứng chớp nháy "WARNING" bên UI
+        
         if (UIManager.instance != null)
         {
             UIManager.instance.ShowBossWarning();
         }
 
-        // 3. Hiệu ứng nhấp nháy mất 3 giây (3 lần x 1s). Ta đợi đúng 3 giây.
+        
         yield return new WaitForSeconds(3f);
 
-        // 4. Thả Boss!
+        
         SpawnBoss();
     }
 
     void SpawnEnemy()
     {
-        if (isBossPhase) return; // Chặn thêm 1 lần nữa cho chắc
+        if (isBossPhase) return; 
 
         float randomX = Random.Range(-2.2f, 2.2f);
         Vector2 spawnPos = new Vector2(randomX, 12f);
@@ -108,15 +107,14 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnBoss()
     {
-        // --- FIX LỖI 3 BOSS: KIỂM TRA KỸ ---
-        // 1. Nếu đang là Boss Phase rồi thì không spawn nữa
+        
         if (isBossPhase) return;
 
-        // 2. Kiểm tra trên màn hình xem có con Boss nào đang sống không? (Chống duplicate tuyệt đối)
+        
         if (GameObject.FindGameObjectWithTag("Boss") != null) return;
-        // (Lưu ý: Bạn nhớ đặt Tag cho Prefab Boss là "Boss" nhé)
+        
 
-        isBossPhase = true; // Khóa lại ngay lập tức
+        isBossPhase = true; 
 
         Vector2 bossPos = new Vector2(0, 13f);
         GameObject boss = Instantiate(bossPrefab, bossPos, Quaternion.identity);
@@ -133,25 +131,24 @@ public class EnemySpawner : MonoBehaviour
 
     public void OnBossDied()
     {
-        // --- FIX LỖI ĐA KÍCH HOẠT ---
-        // Nếu isBossPhase đã được set về false (tức là đã xử lý chết rồi), thì không làm gì nữa
+        
         if (!isBossPhase) return;
 
         Debug.Log("Boss chết! Chuẩn bị qua màn mới.");
 
-        // Tắt cờ Boss Phase để đánh dấu là Boss đã xong
+        
         isBossPhase = false;
-        // --- ĐOẠN MỚI THÊM: GỌI UI CHIẾN THẮNG ---
+        
         if (UIManager.instance != null)
         {
             UIManager.instance.ShowVictoryPanel();
         }
-        // ------------------------------------------
+        
 
         difficultyMultiplier += 0.5f;
         currentWave++;
 
-        // Hủy mọi lệnh Invoke cũ trước khi gọi lệnh mới (để tránh spam)
+        
         CancelInvoke("StartNewWave");
         Invoke("StartNewWave", 4f);
     }

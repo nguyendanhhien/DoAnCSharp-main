@@ -13,11 +13,11 @@ public class UIManager : MonoBehaviour
     public Text levelText;
     public GameObject gameOverPanel;
 
-    // --- CÁC BIẾN MỚI CHO TẠM DỪNG ---
+    
     [Header("Pause Menu")]
     public GameObject pausePanel;
     public Slider volumeSlider;
-    public AudioSource bgmAudioSource; // Nguồn phát nhạc nền
+    public AudioSource bgmAudioSource; 
 
     private int score = 0;
 
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // Đồng bộ thanh trượt với âm lượng thực tế lúc mới vào game
+        
         if (bgmAudioSource != null && volumeSlider != null)
         {
             volumeSlider.value = bgmAudioSource.volume;
@@ -72,23 +72,21 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // ==========================================
-    // --- CÁC HÀM MỚI CHO TẠM DỪNG & ÂM THANH ---
-    // ==========================================
+   
 
     public void PauseGame()
     {
-        if (pausePanel != null) pausePanel.SetActive(true); // Hiện Menu
-        Time.timeScale = 0f; // Đóng băng thời gian trong game
+        if (pausePanel != null) pausePanel.SetActive(true); 
+        Time.timeScale = 0f; 
     }
 
     public void ResumeGame()
     {
-        if (pausePanel != null) pausePanel.SetActive(false); // Ẩn Menu
-        Time.timeScale = 1f; // Chạy lại thời gian
+        if (pausePanel != null) pausePanel.SetActive(false); 
+        Time.timeScale = 1f; 
     }
 
-    // Hàm này sẽ nhận giá trị tự động từ thanh Slider
+    
     public void SetVolume(float volume)
     {
         if (bgmAudioSource != null)
@@ -99,47 +97,47 @@ public class UIManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        Time.timeScale = 1f; // Rất quan trọng: Phải rã đông thời gian trước khi đổi Scene
-        SceneManager.LoadScene("MainMenu"); // Điền tên Scene Menu của bạn vào đây
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene("MainMenu"); 
     }
     [Header("Boss Warning")]
-    public GameObject bossWarningPanel; // <--- Kéo BossWarningPanel vào đây
+    public GameObject bossWarningPanel; 
 
-    // Hàm này Spawner sẽ gọi khi đủ quái
+    
     public void ShowBossWarning()
     {
         StartCoroutine(WarningRoutine());
     }
 
-    // Coroutine tạo hiệu ứng chớp nháy (Không làm dừng game)
+    
     System.Collections.IEnumerator WarningRoutine()
     {
-        // Vòng lặp chớp nháy 3 lần (Bật 0.5s -> Tắt 0.5s)
+        
         for (int i = 0; i < 3; i++)
         {
             if (bossWarningPanel != null) bossWarningPanel.SetActive(true);
-            yield return new WaitForSeconds(0.5f); // Đợi nửa giây
+            yield return new WaitForSeconds(0.5f); 
 
             if (bossWarningPanel != null) bossWarningPanel.SetActive(false);
-            yield return new WaitForSeconds(0.5f); // Đợi nửa giây
+            yield return new WaitForSeconds(0.5f); 
         }
     }
     [Header("Victory Menu")]
-    public GameObject victoryPanel; // <--- Kéo VictoryPanel vào đây
+    public GameObject victoryPanel; 
 
-    // Hàm này sẽ được gọi khi Boss chết
+    
     public void ShowVictoryPanel()
     {
         StartCoroutine(VictoryRoutine());
     }
 
-    // Coroutine tự động hiện Panel chúc mừng 3 giây rồi tắt
+    
     System.Collections.IEnumerator VictoryRoutine()
     {
-        if (victoryPanel != null) victoryPanel.SetActive(true); // Bật chữ chúc mừng
+        if (victoryPanel != null) victoryPanel.SetActive(true); 
 
-        yield return new WaitForSeconds(3f); // Đợi 3 giây (bằng thời gian Spawner nghỉ)
+        yield return new WaitForSeconds(3f); 
 
-        if (victoryPanel != null) victoryPanel.SetActive(false); // Tắt chữ đi để bắn tiếp
+        if (victoryPanel != null) victoryPanel.SetActive(false); 
     }
 }

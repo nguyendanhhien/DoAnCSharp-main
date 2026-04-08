@@ -3,7 +3,7 @@
 public class EnemyBullet : MonoBehaviour
 {
     public float speed = 5f;
-    public int damage = 10; // Sát thương mặc định (sẽ bị ghi đè bởi độ khó)
+    public int damage = 10; 
     private Vector2 moveDirection;
 
     public void SetDirection(Vector2 dir)
@@ -24,7 +24,7 @@ public class EnemyBullet : MonoBehaviour
             PlayerStats player = other.GetComponent<PlayerStats>();
             if (player != null)
             {
-                // Trừ máu theo chỉ số damage hiện tại
+                
                 player.TakeDamage(damage);
             }
             Destroy(gameObject);
